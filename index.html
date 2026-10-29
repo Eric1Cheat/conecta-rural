@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conecta Rural</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f3fa;--ink:#1a1533;--soft:#5b5578;--card:#ffffff;--line:#d9d3ea;--mag:#c4136b;--sun:#f2a900;--tur:#0b8f84;--night:#14102b;--on-night:#f6f3fa;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14102b;--ink:#f6f3fa;--soft:#b8b1d6;--card:#1f1a42;--line:#352e63;--mag:#ff5fa8;--sun:#ffc533;--tur:#3fd6c8}}
+:root[data-theme="dark"]{--bg:#14102b;--ink:#f6f3fa;--soft:#b8b1d6;--card:#1f1a42;--line:#352e63;--mag:#ff5fa8;--sun:#ffc533;--tur:#3fd6c8}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",Georgia,sans-serif;line-height:1.05;margin:0}
+h2{font-size:clamp(1.9rem,5vw,3rem);font-weight:800}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+section{padding:72px 0}
+.lead{color:var(--soft);max-width:56ch;margin:14px 0 28px}
+.mola{height:14px;background:repeating-linear-gradient(135deg,var(--mag) 0 10px,var(--sun) 10px 20px,var(--tur) 20px 30px,var(--night) 30px 40px)}
+/* HERO */
+.hero{position:relative;min-height:92vh;color:#fff;overflow:hidden;background:linear-gradient(var(--s1,#2b1d5a),var(--s2,#ff8a5c));display:flex;flex-direction:column;justify-content:space-between;padding:0}
+.hero .wrap{position:relative;z-index:3;padding-top:36px}
+.logo{display:flex;align-items:center;gap:10px;font:800 1.5rem/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em}.logo svg{width:52px;height:52px;flex:none;transition:transform .5s cubic-bezier(.3,1.5,.5,1)}.logo:hover svg{transform:rotate(-12deg) scale(1.08)}.logo em{font-style:normal;color:var(--sun)}.lg-a{animation:sig 2.4s ease-in-out infinite}.lg-b{animation-delay:.4s}.lg-c{animation-delay:.8s}@keyframes sig{0%,100%{opacity:.25}40%{opacity:1}}
+.hero h1{font-size:clamp(2.6rem,9vw,6rem);font-weight:800;max-width:11ch;margin-top:8vh;text-shadow:0 2px 20px rgba(0,0,0,.25)}
+#cap{font-size:1.15rem;max-width:34ch;margin:18px 0 0;min-height:3.2em;text-shadow:0 1px 10px rgba(0,0,0,.4)}
+.sky{position:absolute;inset:0;z-index:1}
+.sun{position:absolute;width:74px;height:74px;border-radius:50%;background:var(--sunc,#ffd45e);box-shadow:0 0 70px 24px var(--sunc,#ffd45e);transform:translate(-50%,-50%);z-index:1}
+.stars{position:absolute;inset:0;opacity:0;background-image:radial-gradient(2px 2px at 12% 18%,#fff,transparent),radial-gradient(2px 2px at 40% 10%,#fff,transparent),radial-gradient(1.5px 1.5px at 66% 24%,#fff,transparent),radial-gradient(2px 2px at 86% 12%,#fff,transparent),radial-gradient(1.5px 1.5px at 28% 32%,#fff,transparent),radial-gradient(2px 2px at 92% 34%,#fff,transparent)}
+.land{position:absolute;left:0;right:0;bottom:0;width:100%;height:42%;z-index:2;display:block}
+.dim{position:absolute;inset:0;background:#0b0a24;opacity:0;z-index:2;pointer-events:none}
+.ctrl{position:relative;z-index:4;padding:18px 20px 26px;background:rgba(10,8,30,.55);backdrop-filter:blur(6px)}
+.ctrl label{display:block;max-width:980px;margin:0 auto 6px;font-weight:600}
+.ctrl input{display:block;width:100%;max-width:980px;margin:0 auto;accent-color:var(--sun)}
+/* MAP */
+.mapbox{background:var(--night);border-radius:22px;padding:14px;color:var(--on-night)}
+svg.map{width:100%;height:auto;display:block}
+.pin{cursor:pointer}
+.pin circle{fill:var(--sun);stroke:#14102b;stroke-width:3;transition:r .15s}
+.pin:hover circle,.pin.on circle{r:15;fill:var(--mag)}
+.pin text{fill:#f6f3fa;font:600 12px Figtree,sans-serif;text-anchor:middle}
+#info{margin-top:12px;padding:16px 18px;border-radius:14px;background:rgba(255,255,255,.08);min-height:112px}
+#info h3{font-size:1.5rem;color:var(--sun)}
+.note{font-size:.85rem;color:var(--soft);margin-top:10px}
+/* CAJA */
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.item{background:var(--card);border:2px solid var(--line);border-radius:6px 22px 6px 22px;padding:16px 14px;text-align:left;color:var(--ink);min-height:96px}
+.item b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:1.1rem}
+.item span{font-size:.85rem;color:var(--soft)}
+.item[aria-pressed=true]{border-color:var(--mag);background:var(--mag);color:#fff}
+.item[aria-pressed=true] span{color:#fff}
+.box{margin-top:26px;background:var(--card);border:2px dashed var(--line);border-radius:18px;padding:20px}
+.bar{display:flex;height:34px;border-radius:10px;overflow:hidden;margin:14px 0}
+.bar div{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:.85rem;transition:flex-grow .5s;overflow:hidden;white-space:nowrap}
+.btn{background:var(--ink);color:var(--bg);border:0;border-radius:99px;padding:12px 22px;font-weight:600}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+/* CURSOS */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{border:2px solid var(--line);background:transparent;color:var(--ink);padding:8px 16px;border-radius:99px}
+.chip[aria-pressed=true]{background:var(--tur);border-color:var(--tur);color:#fff}
+.course{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:16px 0;border-top:2px solid var(--line)}
+.course h3{font-size:1.2rem}
+.course p{margin:0;color:var(--soft)}
+.tag{align-self:center;font-weight:600;color:var(--tur)}
+/* SUMATE */
+.join{background:var(--night);color:var(--on-night)}
+.join .lead{color:var(--soft)}
+.chk{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:10px}
+.chk label{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:12px;background:rgba(255,255,255,.08);cursor:pointer}
+.chk input{width:22px;height:22px;accent-color:var(--sun);flex:none;margin-top:2px}
+#ok{font-family:"Bricolage Grotesque",sans-serif;font-size:1.4rem;color:var(--sun);min-height:2em}
+footer{padding:28px 0;color:var(--soft);font-size:.9rem}
+.mola{background-size:56.57px 14px;animation:mv 2.5s linear infinite}@keyframes mv{to{background-position:56.57px 0}}
+.w{display:inline-block;animation:rise .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.14s)}@keyframes rise{from{opacity:0;transform:translateY(46px) rotate(5deg)}}
+.sun{animation:pulse 4s ease-in-out infinite alternate}@keyframes pulse{to{box-shadow:0 0 100px 40px var(--sunc,#ffd45e)}}
+.cloud,.bird{position:absolute;left:-240px;animation:cross var(--d) linear infinite}@keyframes cross{to{left:110%}}
+.cloud{width:var(--w);height:calc(var(--w)*.34);background:rgba(255,255,255,.75);border-radius:99px;filter:blur(3px)}
+.bird{width:44px;height:auto;animation:cross var(--d) linear infinite,flap .5s ease-in-out infinite alternate}@keyframes flap{to{transform:scaleY(.45)}}
+.flies{position:absolute;inset:0;opacity:0}.flies i{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffe98a;box-shadow:0 0 12px 4px #ffe98a;animation:fly 8s ease-in-out infinite alternate}@keyframes fly{to{transform:translate(46px,-64px);opacity:.25}}
+.land path:nth-child(1){animation:sway 11s ease-in-out infinite alternate}.land path:nth-child(2){animation:sway 8s ease-in-out infinite alternate-reverse}.land path:nth-child(3){animation:sway 6s ease-in-out infinite alternate}.land path:nth-child(4){animation:sway 5s ease-in-out infinite alternate-reverse}@keyframes sway{to{transform:translateX(-18px)}}
+.mq{overflow:hidden;background:var(--night);color:var(--sun);padding:16px 0;font:800 clamp(1.5rem,5vw,2.4rem) "Bricolage Grotesque",sans-serif}.mq>div{display:flex;width:max-content;animation:mq 30s linear infinite}@keyframes mq{to{transform:translateX(-50%)}}.mq span{white-space:nowrap}.mq span::after{content:"";display:inline-block;width:.35em;height:.35em;border-radius:50%;background:var(--mag);margin:0 .8em}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s cubic-bezier(.2,.8,.2,1)}.rv.in{opacity:1;transform:none}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}.card{background:var(--card);border:2px solid var(--line);border-radius:6px 26px 6px 26px;padding:22px;transition:transform .3s}.card:hover{transform:rotate(-1.5deg) translateY(-4px)}.card h3{font-size:1.5rem;margin:8px 0}.card p{margin:0;color:var(--soft)}.ico{display:inline-block;font-size:2.8rem;animation:bob 2.4s ease-in-out infinite;animation-delay:calc(var(--i)*.4s)}@keyframes bob{50%{transform:translateY(-10px) rotate(-6deg)}}
+.sw{display:inline-grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);border-radius:99px;padding:4px;background:transparent;margin-bottom:18px;position:relative}.sw span{padding:8px 12px;font-size:.92rem;font-weight:600;text-align:center;position:relative;z-index:1;transition:color .3s;color:var(--ink)}.sw::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:99px;background:var(--mag);transition:transform .35s cubic-bezier(.3,1.4,.5,1)}.sw[aria-pressed=true]::before{transform:translateX(100%)}.sw span:first-child{color:#fff}.sw[aria-pressed=true] span:first-child{color:var(--ink)}.sw[aria-pressed=true] span:last-child{color:#fff}
+.ba{list-style:none;padding:0;margin:0;display:grid;gap:12px}.ba li{display:grid;border:2px solid var(--line);border-radius:6px 22px 6px 22px;padding:18px 20px;background:var(--card);overflow:hidden;transition:border-color .4s}.ba li span{grid-area:1/1;transition:transform .5s cubic-bezier(.2,.9,.3,1),opacity .4s;transition-delay:calc(var(--i)*.08s)}.ba .a{color:var(--soft)}.ba .b{opacity:0;transform:translateY(100%);font-weight:600}.ba.on .a{opacity:0;transform:translateY(-100%)}.ba.on .b{opacity:1;transform:none}.ba.on li{border-color:var(--tur)}
+.pin circle.ring{fill:none;stroke:var(--sun);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:ring 2.2s ease-out infinite;pointer-events:none}@keyframes ring{from{transform:scale(1);opacity:.9}to{transform:scale(3.2);opacity:0}}
+#info h3,#info p{animation:drop .4s ease}@keyframes drop{from{opacity:0;transform:translateY(-8px)}}
+.item[aria-pressed=true]{animation:pop .4s cubic-bezier(.3,1.6,.5,1)}@keyframes pop{from{transform:scale(.88) rotate(-3deg)}}.box.done{animation:glow 1.6s ease-out;border-color:var(--tur)}@keyframes glow{from{box-shadow:0 0 0 0 var(--tur)}to{box-shadow:0 0 0 26px transparent}}
+.road{height:10px;background:repeating-linear-gradient(90deg,var(--line) 0 18px,transparent 18px 32px);position:relative;border-radius:5px;margin:46px 0 22px}.truck{position:absolute;top:-38px;font-size:2rem;display:inline-block;transform:scaleX(-1);animation:drive 7s linear infinite}@keyframes drive{from{left:-6%}to{left:100%}}
+.stops{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;padding-left:22px;margin:0}.stops li{padding-left:6px}.stops b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:1.2rem}.stops span{color:var(--soft)}
+.course{display:block;padding:0}.course summary{display:flex;align-items:center;gap:12px;padding:16px 0;cursor:pointer;list-style:none}.course summary::-webkit-details-marker{display:none}.course summary h3{flex:1}.course summary::after{content:"+";font:800 1.7rem "Bricolage Grotesque",sans-serif;color:var(--mag);transition:transform .3s}.course[open] summary::after{transform:rotate(45deg)}.course p{margin:0 0 8px}.course ol{margin:0 0 16px;padding-left:22px}.course li{margin:4px 0}.course[open] ol,.course[open] p{animation:drop .4s ease}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="hero" id="hero">
+  <div class="sky" aria-hidden="true"><div class="stars" id="stars"></div><div class="sun" id="sun"></div><i class="cloud" style="top:14%;--d:60s;--w:140px"></i><i class="cloud" style="top:27%;--d:90s;--w:210px;animation-delay:-45s"></i><i class="cloud" style="top:20%;--d:75s;--w:100px;animation-delay:-20s"></i><svg class="bird" viewBox="0 0 40 16" style="top:36%;--d:20s"><path d="M2 12 Q10 0 20 10 Q30 0 38 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg><svg class="bird" viewBox="0 0 40 16" style="top:42%;--d:26s;animation-delay:-9s"><path d="M2 12 Q10 0 20 10 Q30 0 38 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg><div class="flies" id="flies"></div></div>
+  <svg class="land" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 160 L140 70 L260 150 L400 40 L560 160 L700 80 L840 150 L1000 60 L1000 300 L0 300Z" fill="#3b2a6e"/>
+    <path d="M0 210 L120 140 L250 200 L420 110 L600 210 L760 130 L900 200 L1000 150 L1000 300 L0 300Z" fill="#0b6b5f"/>
+    <path d="M0 260 L180 210 L360 255 L560 205 L780 258 L1000 220 L1000 300 L0 300Z" fill="#c4136b"/>
+    <path d="M0 285 L200 255 L420 280 L640 252 L860 282 L1000 262 L1000 300 L0 300Z" fill="#f2a900"/>
+  </svg>
+  <div class="dim" id="dim"></div>
+  <div class="wrap">
+    <div class="logo" role="img" aria-label="Conecta Rural"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="#c4136b"/><circle cx="24" cy="24" r="20.5" fill="#f2a900"/><circle cx="24" cy="24" r="18" fill="#14102b"/><path d="M24 41V30" stroke="#3fd6c8" stroke-width="2.6" stroke-linecap="round" fill="none"/><path d="M24 33C17 33 15 28 15 26C20 26 24 28 24 33Z" fill="#3fd6c8"/><path d="M24 30C31 30 33 25 33 23C28 23 24 25 24 30Z" fill="#3fd6c8"/><circle cx="24" cy="19" r="2.2" fill="#ffc533"/><path class="lg-a" d="M19.76 14.76A6 6 0 0 1 28.24 14.76" stroke="#ffc533" stroke-width="2.4" stroke-linecap="round" fill="none"/><path class="lg-a lg-b" d="M16.2 11.2A11 11 0 0 1 31.8 11.2" stroke="#ffc533" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg><span>Conecta <em>Rural</em></span></div>
+    <h1><span class="w" style="--i:0">El</span> <span class="w" style="--i:1">campo</span> <span class="w" style="--i:2">también</span> <span class="w" style="--i:3">está</span> <span class="w" style="--i:4">conectado.</span></h1>
+    <p id="cap" aria-live="polite"></p>
+  </div>
+  <div class="ctrl">
+    <label for="time">Mueve el sol y mira un día en el campo panameño</label>
+    <input id="time" type="range" min="0" max="100" value="8"><button class="btn" id="play" style="display:block;margin:12px auto 0;background:var(--sun);color:#1a1533">Pausar el día</button>
+  </div>
+</header>
+<div class="mola" aria-hidden="true"></div>
+
+<div class="mq" aria-hidden="true"><div><span>Café</span><span>Miel</span><span>Molas</span><span>Chácaras</span><span>Sombreros pintaos</span><span>Cestería</span><span>Tagua</span><span>Cerámica</span></div></div>
+
+<section id="que"><div class="wrap">
+  <h2>¿Qué es Conecta Rural?</h2>
+  <p class="lead">Es una página web que junta en un solo lugar a las personas del campo de Panamá y todo lo que necesitan para que más gente las conozca y les compre.</p>
+  <div class="cards">
+    <div class="card"><span class="ico" style="--i:0">👀</span><h3>Mostramos</h3><p>Cada productor tiene su perfil con fotos, su historia y cómo contactarlo. Así el cliente sabe quién hizo lo que compra.</p></div>
+    <div class="card"><span class="ico" style="--i:1">📱</span><h3>Enseñamos</h3><p>Guías cortas para usar el celular: sacar buenas fotos, atender por WhatsApp, cobrar y poner un precio justo.</p></div>
+    <div class="card"><span class="ico" style="--i:2">📦</span><h3>Vendemos</h3><p>Con la Caja Conecta, los productos viajan juntos hasta la casa del cliente y el dinero llega a las comunidades.</p></div>
+  </div>
+</div></section>
+
+<section id="antes" style="padding-top:0"><div class="wrap">
+  <h2>¿Por qué hace falta?</h2>
+  <p class="lead">Muchos productores tienen talento, pero pocos lo ven. Mueve el interruptor y compara.</p>
+  <button class="sw" id="sw" aria-pressed="false"><span>Sin Conecta</span><span>Con Conecta</span></button>
+  <ul class="ba" id="ba"></ul>
+</div></section>
+
+<section id="mapa"><div class="wrap">
+  <h2>Toca un punto del mapa</h2>
+  <p class="lead">Cada zona del país tiene algo que contar. Así se verán las comunidades en la página.</p>
+  <div class="mapbox">
+    <svg class="map" viewBox="0 0 620 250" role="group" aria-label="Mapa de comunidades">
+      <path d="M30 155 C120 105 200 195 300 150 C380 110 400 95 440 100 C500 108 520 170 580 180" fill="none" stroke="#2c2560" stroke-width="78" stroke-linecap="round"/>
+      <path d="M30 155 C120 105 200 195 300 150 C380 110 400 95 440 100 C500 108 520 170 580 180" fill="none" stroke="#0b6b5f" stroke-width="64" stroke-linecap="round" stroke-dasharray="2 12"/>
+      <g id="pins"></g>
+    </svg>
+    <div id="info"><h3>Elige una comunidad</h3><p>Toca cualquier punto amarillo.</p></div>
+  </div>
+  <p class="note">Contenido de ejemplo. Aquí irán los perfiles reales de cada productor, con su foto y su contacto.</p>
+</div></section>
+
+<section id="caja" style="padding-top:0"><div class="wrap">
+  <h2>Arma tu Caja Conecta</h2>
+  <p class="lead">Una caja con 4 productos de comunidades distintas. Tú escoges y nosotros la armamos. Abajo verás a dónde va cada dólar de los $30.</p>
+  <div class="items" id="items"></div>
+  <div class="box">
+    <strong id="count">Llevas 0 de 4</strong>
+    <div class="bar" role="img" aria-label="Reparto del dinero de la caja">
+      <div id="b1" style="flex-grow:70;background:var(--mag)">Productores</div>
+      <div id="b2" style="flex-grow:15;background:var(--tur)">Envío</div>
+      <div id="b3" style="flex-grow:15;background:var(--night)">Proyecto</div>
+    </div>
+    <p id="split" style="margin:0 0 14px;color:var(--soft)">Completa tu caja para ver el reparto.</p>
+    <button class="btn" id="copy" disabled>Copiar mi pedido</button>
+    <span id="copied" style="margin-left:10px" aria-live="polite"></span>
+  </div>
+</div></section>
+
+<section id="ruta" style="padding-top:0"><div class="wrap">
+  <h2>Así viaja tu caja</h2>
+  <p class="lead">Desde la comunidad hasta tu casa, en cuatro pasos.</p>
+  <div class="road"><span class="truck">🚚</span></div>
+  <ol class="stops">
+    <li><b>El productor prepara</b><span>Cada persona empaca lo suyo, fresco y listo.</span></li>
+    <li><b>Se junta todo</b><span>Los productos llegan a un punto de acopio.</span></li>
+    <li><b>Armamos la caja</b><span>Revisamos, empacamos con cuidado y ponemos la tarjeta con la historia.</span></li>
+    <li><b>Llega a tu casa</b><span>Tú disfrutas, y el pago llega a las comunidades.</span></li>
+  </ol>
+</div></section>
+
+<section id="directorio" style="padding-top:0"><div class="wrap">
+  <h2>Conoce a quienes lo hacen</h2>
+  <p class="lead">Artesanos, agricultores y emprendedores del campo, cada uno con su perfil. Cambia de grupo para verlos.</p>
+  <div class="chips" id="dchips"></div>
+  <div class="cards" id="dgrid"></div>
+</div></section>
+
+<section id="aprende" style="padding-top:0"><div class="wrap">
+  <h2>Aprende algo nuevo hoy</h2>
+  <p class="lead">Guías cortas para usar el celular y vender mejor. Filtra por lo que necesitas.</p>
+  <div class="chips" id="chips"></div>
+  <div id="courses"></div>
+  <p class="note">Ejemplos de las guías y cursos que tendrá la página.</p>
+</div></section>
+
+<section id="servicios"><div class="wrap">
+  <h2>Apoyos y servicios que existen</h2>
+  <p class="lead">Muchas ayudas existen pero cuesta encontrarlas. Aquí las ordenamos por lo que necesitas.</p>
+  <div class="cards">
+    <div class="card"><span class="ico" style="--i:0">💵</span><h3>Dinero para crecer</h3><p>Créditos y financiamiento para producir o comprar herramientas.</p><p class="note">Ejemplos donde preguntar: Banco de Desarrollo Agropecuario, AMPYME.</p></div>
+    <div class="card"><span class="ico" style="--i:1">🌱</span><h3>Ayuda técnica</h3><p>Expertos que visitan o asesoran sobre cultivos, calidad y producción.</p><p class="note">Ejemplo donde preguntar: MIDA.</p></div>
+    <div class="card"><span class="ico" style="--i:2">🎓</span><h3>Cursos con certificado</h3><p>Formación en oficios y habilidades para el negocio.</p><p class="note">Ejemplo donde preguntar: INADEH.</p></div>
+    <div class="card"><span class="ico" style="--i:3">📄</span><h3>Trámites y permisos</h3><p>Qué papeles necesitas para vender legalmente y cómo sacarlos.</p><p class="note">Ejemplo donde preguntar: AMPYME y tu municipio.</p></div>
+  </div>
+  <p class="note">Información de ejemplo. Antes de publicarla hay que confirmar con cada institución qué ofrece hoy.</p>
+</div></section>
+
+<div class="mola" aria-hidden="true"></div>
+<section class="join" id="sumate"><div class="wrap">
+  <h2>¿Haces algo con tus manos o tu tierra?</h2>
+  <p class="lead">Para aparecer en Conecta Rural solo necesitas tres cosas. Márcalas cuando las tengas.</p>
+  <ul class="chk" id="chk"></ul>
+  <div id="ok" aria-live="polite"></div>
+</div></section>
+<footer><div class="wrap">Conecta Rural · Proyecto para acercar el campo de Panamá a más gente.</div></footer>
+
+<script>
+const $=s=>document.querySelector(s);
+const mix=(a,b,t)=>{const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));const A=p(a),B=p(b);return'#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')};
+const K=[[0,'#2b1d5a','#ff8a5c','#ffd45e'],[.35,'#3f8fe0','#bfe8ff','#fff3a8'],[.7,'#5a2a7a','#ff6f61','#ffb067'],[1,'#07061c','#1f1a4d','#e8ecff']];
+const CAP=[[0,'Amanecer: en Chiriquí se cosecha el café.'],[.28,'Mediodía: en Coclé se pinta el sombrero a mano.'],[.6,'Atardecer: en Guna Yala se cose la mola.'],[.88,'Noche: aún falta que más gente los conozca. Ahí entras tú.']];
+function sky(v){const t=v/100;let i=0;while(i<K.length-2&&t>K[i+1][0])i++;
+ const a=K[i],b=K[i+1],f=Math.min(1,Math.max(0,(t-a[0])/(b[0]-a[0])));
+ const h=$('#hero').style;h.setProperty('--s1',mix(a[1],b[1],f));h.setProperty('--s2',mix(a[2],b[2],f));h.setProperty('--sunc',mix(a[3],b[3],f));
+ const s=$('#sun').style;s.left=(8+t*84)+'%';s.top=(78-52*Math.sin(Math.PI*Math.min(t/.85,1)))+'%';
+ $('#stars').style.opacity=Math.min(1,Math.max(0,(t-.65)*3));$('#flies').style.opacity=Math.min(1,Math.max(0,(t-.7)*4));$('#dim').style.opacity=Math.min(.55,Math.max(0,(t-.6)*1.4));
+ let c=CAP[0][1];CAP.forEach(x=>{if(t>=x[0])c=x[1]});$('#cap').textContent=c}
+let auto=!matchMedia('(prefers-reduced-motion:reduce)').matches,v=8,dir=1,last=0;
+const tm=$('#time'),pb=$('#play');
+function tick(ts){if(auto){v+=dir*(ts-last)*0.0025;if(v>=100){v=100;dir=-1}if(v<=0){v=0;dir=1}tm.value=v;sky(v)}last=ts;requestAnimationFrame(tick)}
+tm.addEventListener('input',e=>{auto=false;v=+e.target.value;sky(v);pb.textContent='Reanudar el día'});
+pb.onclick=()=>{auto=!auto;pb.textContent=auto?'Pausar el día':'Reanudar el día'};
+pb.textContent=auto?'Pausar el día':'Reanudar el día';sky(8);requestAnimationFrame(tick);
+
+const P=[['Chiriquí',70,155,'Café de altura en Boquete y hortalizas frescas de Cerro Punta. Productores que cuidan la tierra de las montañas.'],
+['Ngäbe-Buglé',135,122,'Chácaras (bolsos) tejidas a mano y naguas de colores. Cada diseño cuenta una historia.'],
+['Azuero',215,185,'Cerámica de La Arena y polleras. Oficios que pasan de abuelas a nietas.'],
+['Coclé',292,148,'Sombreros pintaos hechos con fibra y paciencia, uno por uno.'],
+['Guna Yala',410,100,'Molas: telas de capas de colores cosidas a mano, con dibujos que parecen mapas.'],
+['Darién',545,178,'Cestería y tagua tallada de las comunidades Emberá y Wounaan.']];
+P.forEach((p,i)=>{const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('class','pin');g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',p[0]);
+ g.innerHTML=`<circle class="ring" cx="${p[1]}" cy="${p[2]}" r="11"/><circle cx="${p[1]}" cy="${p[2]}" r="11"/><text x="${p[1]}" y="${p[2]-20}">${p[0]}</text>`;
+ const go=()=>{document.querySelectorAll('.pin').forEach(x=>x.classList.remove('on'));g.classList.add('on');$('#info').innerHTML=`<h3>${p[0]}</h3><p>${p[3]}</p>`};
+ g.onclick=go;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}};$('#pins').appendChild(g)});
+
+const I=[['Café de altura','Chiriquí'],['Miel pura','Azuero'],['Mola pequeña','Guna Yala'],['Chácara mini','Ngäbe-Buglé'],['Cerámica','La Arena'],['Tagua tallada','Darién']];
+let sel=new Set();
+I.forEach((x,i)=>{const b=document.createElement('button');b.className='item';b.setAttribute('aria-pressed','false');b.innerHTML=`<b>${x[0]}</b><span>${x[1]}</span>`;
+ b.onclick=()=>{if(sel.has(i)){sel.delete(i)}else if(sel.size<4){sel.add(i)}else return;b.setAttribute('aria-pressed',sel.has(i));upd()};$('#items').appendChild(b)});
+function upd(){const n=sel.size,ok=n===4;$('#count').textContent=ok?'Tu caja está lista':`Llevas ${n} de 4`;
+ $('#b1').style.flexGrow=ok?70:50;$('#b2').style.flexGrow=ok?15:25;$('#b3').style.flexGrow=ok?15:25;
+ $('#split').textContent=ok?'De tus $30: $21 para los productores, $4.50 para empaque y envío, y $4.50 para mantener el proyecto.':'Completa tu caja para ver el reparto.';
+ $('#copy').disabled=!ok;$('#copied').textContent='';document.querySelector('.box').classList.toggle('done',ok)}
+$('#copy').onclick=async()=>{const t='Pedido Caja Conecta ($30): '+[...sel].map(i=>I[i][0]).join(', ');
+ try{await navigator.clipboard.writeText(t);$('#copied').textContent='Pedido copiado'}catch(e){$('#copied').textContent=t}};
+
+const C=[['Usa WhatsApp para vender','Celular','Crea un catálogo con precios y fotos.'],['Fotos que venden, con tu celular','Celular','Luz natural, fondo limpio y tres ángulos.'],['Cuánto cobrar por tu producto','Dinero','Suma tus gastos, tu tiempo y una ganancia justa.'],['Cobra con pagos digitales','Dinero','Pasos para recibir pagos desde el celular.'],['Cómo mostrar tu historia','Ventas','Cuenta quién eres y cómo lo haces, en tres líneas.'],['Empaca para enviar sin daños','Ventas','Cajas, relleno y cómo cuidar lo frágil.']];
+const T=['Todo','Celular','Dinero','Ventas'];let tf='Todo';
+const S={'Usa WhatsApp para vender':['Abre WhatsApp Business (es gratis).','Pon tu foto, tu nombre y tu horario.','Crea un catálogo con foto y precio de cada producto.','Escribe un mensaje de bienvenida corto.'],'Fotos que venden, con tu celular':['Busca luz natural, cerca de una ventana o afuera.','Pon el producto sobre un fondo liso.','Toma una foto de frente, una de cerca y una de lado.','Limpia el lente antes de fotografiar.'],'Cuánto cobrar por tu producto':['Suma lo que gastas en materiales.','Calcula cuánto vale tu tiempo por hora.','Súmale una ganancia justa.','Compara con productos parecidos y ajusta.'],'Cobra con pagos digitales':['Pregunta en tu banco qué opciones de pago por celular tiene.','Pon tu número o código en tu perfil.','Pide la captura del pago antes de enviar.','Anota cada venta en un cuaderno.'],'Cómo mostrar tu historia':['Di quién eres y de qué comunidad vienes.','Cuenta cómo haces tu producto.','Explica qué lo hace especial.','Termina con cómo te pueden contactar.'],'Empaca para enviar sin daños':['Envuelve cada producto por separado.','Usa papel o cartón como relleno.','Pon lo pesado abajo y lo frágil arriba.','Escribe “frágil” y el nombre del cliente por fuera.']};
+function draw(){$('#chips').innerHTML='';T.forEach(t=>{const b=document.createElement('button');b.className='chip';b.textContent=t;b.setAttribute('aria-pressed',t===tf);b.onclick=()=>{tf=t;draw()};$('#chips').appendChild(b)});
+ $('#courses').innerHTML=C.filter(c=>tf==='Todo'||c[1]===tf).map(c=>`<details class="course"><summary><h3>${c[0]}</h3><span class="tag">${c[1]}</span></summary><p>${c[2]}</p><ol>${(S[c[0]]||[]).map(s=>`<li>${s}</li>`).join('')}</ol></details>`).join('')}
+draw();
+
+['Tres fotos buenas de lo que haces','Tu historia en tres líneas','Tu número de WhatsApp'].forEach(t=>{const li=document.createElement('li');li.innerHTML=`<label><input type="checkbox"><span>${t}</span></label>`;$('#chk').appendChild(li)});
+$('#chk').addEventListener('change',()=>{const n=document.querySelectorAll('#chk input:checked').length;
+ $('#ok').textContent=n===3?'Listo. Ya puedes pedir que te sumemos.':n?`Te falta${3-n>1?'n':''} ${3-n}.`:''});
+const mqd=document.querySelector('.mq div');mqd.innerHTML+=mqd.innerHTML;
+for(let i=0;i<16;i++){const d=document.createElement('i');d.style.cssText=`left:${Math.random()*100}%;top:${48+Math.random()*30}%;animation-delay:-${Math.random()*8}s;animation-duration:${6+Math.random()*6}s`;$('#flies').appendChild(d)}
+const BA=[['Casi nadie sabe que tu producto existe.','Tu perfil, con fotos y tu historia, se ve en todo el país.'],['Los cursos y ayudas están regados y es difícil enterarse.','Todo está en un solo lugar, con filtros fáciles.'],['Vender por internet da miedo o no se sabe cómo.','Guías cortas, paso a paso, para usar el celular.'],['Cada productor vende solo y llega poco lejos.','Los productos viajan juntos en la Caja Conecta.']];
+$('#ba').innerHTML=BA.map((x,i)=>`<li style="--i:${i}"><span class="a">${x[0]}</span><span class="b">${x[1]}</span></li>`).join('');
+$('#sw').onclick=()=>{const on=$('#ba').classList.toggle('on');$('#sw').setAttribute('aria-pressed',on)};
+try{document.documentElement.classList.add('js');const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('section h2,section .lead,.card,.items,.box,.stops li,.ba,.mapbox,.road').forEach(el=>{el.classList.add('rv');io.observe(el)})}catch(e){document.querySelectorAll('.rv').forEach(el=>el.classList.add('in'))}
+const D={Artesanos:[['Taller de molas','Guna Yala','Molas cosidas a mano, bolsos y cuadros.'],['Tejedoras de chácaras','Ngäbe-Buglé','Bolsos y accesorios tejidos con fibras naturales.']],Agricultores:[['Finca de café de altura','Chiriquí','Café en grano y molido, cosechado por la familia.'],['Huerta de hortalizas','Tierras Altas, Chiriquí','Verduras frescas de temporada.']],Emprendedores:[['Turismo comunitario','Darién','Recorridos con guías de la propia comunidad.'],['Dulces y conservas caseras','Azuero','Productos hechos con frutas de la zona.']]};let dt='Artesanos';
+function drawD(){$('#dchips').innerHTML='';Object.keys(D).forEach(k=>{const b=document.createElement('button');b.className='chip';b.textContent=k;b.setAttribute('aria-pressed',k===dt);b.onclick=()=>{dt=k;drawD()};$('#dchips').appendChild(b)});$('#dgrid').innerHTML=D[dt].map(x=>`<div class="card"><h3>${x[0]}</h3><b style="color:var(--tur)">${x[1]}</b><p style="margin-top:6px">${x[2]}</p><p class="note">Contacto: WhatsApp (aquí irá el número). Perfil de ejemplo.</p></div>`).join('')}drawD();
+</script>
+</body>
+</html>
